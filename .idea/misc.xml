@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_baseline_adb_24.xml" value="0.32916666666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2916666666666667" />
+        <entry key="app/src/main/res/layout/custom_toast.xml" value="0.27760416666666665" />
         <entry key="app/src/main/res/layout/dialog_fragment_video.xml" value="0.30885416666666665" />
         <entry key="app/src/main/res/layout/item.xml" value="0.5" />
       </map>

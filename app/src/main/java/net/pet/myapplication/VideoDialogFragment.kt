@@ -2,17 +2,24 @@ package net.pet.myapplication
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import net.pet.myapplication.databinding.CustomToastBinding
 import net.pet.myapplication.databinding.DialogFragmentVideoBinding
 
 class VideoDialogFragment(url : String) : DialogFragment() {
     private val binding: DialogFragmentVideoBinding by lazy {
         DialogFragmentVideoBinding.inflate(layoutInflater)
+    }
+    private val bind : CustomToastBinding by lazy{
+        CustomToastBinding.inflate(layoutInflater)
     }
     //init ExoPlayer, mediaItem = url
         private val player : ExoPlayer by lazy {
@@ -30,6 +37,17 @@ class VideoDialogFragment(url : String) : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding.viewVideo.setOnClickListener {
+            val inflater = layoutInflater
+            val container : ViewGroup = bind.toastLayout
+            val layout: View = inflater.inflate(R.layout.custom_toast, container)
+            val text: TextView = layout.findViewById(R.id.tv_custom_toast)
+            text.text = "Some text"
+            with (Toast(context)) {
+                setGravity(Gravity.BOTTOM, 0, 0)
+                duration = Toast.LENGTH_LONG
+                view = layout
+                show()
+            }
             dismiss()
         }
         return binding.root
