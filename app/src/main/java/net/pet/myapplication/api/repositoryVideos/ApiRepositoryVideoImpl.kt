@@ -11,7 +11,7 @@ class ApiRepositoryVideoImpl(private val apiService: RetrofitServicesVideo) : Ap
     }
     override suspend fun getAll(query: String, pageNumber: Int, pageSize: Int): VideosResponse? {
         Log.e("TAG", "ApiRepositoryVideoImpl getAll")
-        val response : Response<VideosResponse> = apiService.getList(queryString = "cats")
+        val response : Response<VideosResponse> = apiService.getList(queryString = query)
         Log.e("TAG", "ApiRepositoryVideoImpl getAll   $response")
         when (response.isSuccessful) {
             true -> {

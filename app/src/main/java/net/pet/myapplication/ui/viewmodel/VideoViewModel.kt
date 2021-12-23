@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.Flow
 import net.pet.myapplication.data.network.VideoPagingDataSource
 import net.pet.myapplication.model.VideoItemUI
 
-class VideoViewModel (private val pagingDataSource: VideoPagingDataSource) : ViewModel() {
+class VideoViewModel : ViewModel() {
+
+    private val pagingDataSource = VideoPagingDataSource(query = "dog")
 
     val newData : Flow<PagingData<VideoItemUI>> = Pager(config = PagingConfig(pageSize = 20, prefetchDistance = 2),
     pagingSourceFactory = {pagingDataSource}

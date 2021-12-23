@@ -5,8 +5,12 @@ import androidx.paging.PagingSource
 import kotlinx.coroutines.delay
 import net.pet.myapplication.model.VideoItemUI
 import net.pet.myapplication.usecases.GetVideoResponseUseCase
+import org.koin.java.KoinJavaComponent.inject
 
-class VideoPagingDataSource (private val responseUseCase: GetVideoResponseUseCase, private val query: String = "dog") : PagingSource<Int, VideoItemUI>() {
+class VideoPagingDataSource(private val query: String) : PagingSource<Int, VideoItemUI>() {
+
+    private val responseUseCase: GetVideoResponseUseCase by inject(GetVideoResponseUseCase::class.java)
+
     init {
         Log.e("TAG", "VideoPagingDataSource")
     }
@@ -20,7 +24,7 @@ class VideoPagingDataSource (private val responseUseCase: GetVideoResponseUseCas
         Log.e("TAG", "VideoPagingDataSource  load, pageNumber = $pageNumber")
         val pageSize = params.loadSize.coerceAtMost(20)
 
-        val data = responseUseCase.invoke(query, pageNumber, pageSize)
+        val data = responseUseCase(query, pageNumber, pageSize)
 
         val nextKey = if(data.size < pageSize) null else pageNumber+1
         val prevKey = if (pageNumber == 1) null else pageNumber-1

@@ -1,6 +1,5 @@
 package net.pet.myapplication.di
 
-import net.pet.myapplication.data.network.VideoPagingDataSource
 import net.pet.myapplication.api.`interface`.RetrofitServices
 import net.pet.myapplication.api.`interface`.RetrofitServicesVideo
 import net.pet.myapplication.api.repositoryImages.ApiRepository
@@ -20,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val mainModule = module {
     viewModel { ImageViewModel(get()) }
-    viewModel { VideoViewModel(get()) }
+    viewModel { VideoViewModel() }
 
     single<ApiRepository> { ApiRepositoryImpl(get()) }
     single { provideApiService(get())}
@@ -29,7 +28,6 @@ val mainModule = module {
     single { provideApiServiceVideo(get()) }
 
     single { GetVideoResponseUseCase(get())}
-    single { VideoPagingDataSource(get()) }
 }
 
 private fun provideRetrofitClient(): Retrofit {
