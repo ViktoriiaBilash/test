@@ -1,11 +1,15 @@
 package net.pet.myapplication.usecases
 
+import android.util.Log
 import net.pet.myapplication.model.VideoItemUI
 import net.pet.myapplication.api.repositoryVideos.ApiRepositoryVideo
 
 class GetVideoResponseUseCase(private val repository: ApiRepositoryVideo) {
-
+init {
+    Log.e("TAG", " GetVideoResponseUseCase")
+}
     suspend operator fun invoke(query: String, pageNumber: Int, pageSize: Int): List<VideoItemUI> {
+        Log.e("TAG", "GetVideoResponseUseCase invoke")
         val response = repository.getAll(query, pageNumber, pageSize)
         return response.let { videoResponse ->
             val hits = videoResponse?.hits ?: listOf()

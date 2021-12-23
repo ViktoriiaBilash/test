@@ -1,6 +1,5 @@
 package net.pet.myapplication.di
 
-import androidx.room.Room
 import net.pet.myapplication.data.network.VideoPagingDataSource
 import net.pet.myapplication.api.`interface`.RetrofitServices
 import net.pet.myapplication.api.`interface`.RetrofitServicesVideo
@@ -30,7 +29,7 @@ val mainModule = module {
     single { provideApiServiceVideo(get()) }
 
     single { GetVideoResponseUseCase(get())}
-    single { VideoPagingDataSource(get(), get()) }
+    single { VideoPagingDataSource(get()) }
 }
 
 private fun provideRetrofitClient(): Retrofit {

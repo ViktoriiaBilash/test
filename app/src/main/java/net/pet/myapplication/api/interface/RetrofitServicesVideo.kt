@@ -1,5 +1,6 @@
 package net.pet.myapplication.api.`interface`
 
+import android.util.Log
 import androidx.annotation.IntRange
 import net.pet.myapplication.model.video.VideosResponse
 import retrofit2.Response
@@ -7,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RetrofitServicesVideo {
+
     //base api
     @GET("api/videos/")
     //key get from API docs

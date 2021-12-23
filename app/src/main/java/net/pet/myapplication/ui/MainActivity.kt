@@ -1,9 +1,10 @@
 package net.pet.myapplication.ui
 
-
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.CombinedLoadStates
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.collectLatest
 import net.pet.myapplication.databinding.ActivityMainBinding
@@ -13,7 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModelVideo : VideoViewModel by viewModel()
+    private val viewModelVideo: VideoViewModel by viewModel()
 
     private val listener: (url: String) -> Unit = { url ->
         val dialog = VideoDialogFragment(url ?: "")
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private val videoAdapter : VideoAdapter by lazy {
+    private val videoAdapter: VideoAdapter by lazy {
         VideoAdapter(clickListener = listener)
     }
 
@@ -38,14 +39,16 @@ class MainActivity : AppCompatActivity() {
     private fun init() {
         with(binding.recyclerViewImage) {
             layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = videoAdapter
+            adapter = videoAdapter.withLoadStateFooter(StateAdapter())
         }
     }
 
     private fun observe() {
+        Log.e("TAG", "MainActivity observe()")
         videoAdapter.withLoadStateFooter(StateAdapter())
         this.lifecycleScope.launchWhenCreated {
-           viewModelVideo.newData.collectLatest(videoAdapter::submitData)
-            }
+            viewModelVideo.newData.collectLatest(videoAdapter::submitData)
         }
+
+    }
 }
