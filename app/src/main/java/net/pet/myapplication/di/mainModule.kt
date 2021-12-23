@@ -1,23 +1,19 @@
 package net.pet.myapplication.di
 
 import androidx.room.Room
-import net.pet.myapplication.retrofit.`interface`.RetrofitServices
-import net.pet.myapplication.retrofit.`interface`.RetrofitServicesVideo
-import net.pet.myapplication.retrofit.repositoryImages.ApiRepository
-import net.pet.myapplication.retrofit.repositoryImages.ApiRepositoryImpl
-import net.pet.myapplication.retrofit.repositoryVideos.ApiRepositoryVideo
-import net.pet.myapplication.retrofit.repositoryVideos.ApiRepositoryVideoImpl
-import net.pet.myapplication.room.Database
-import net.pet.myapplication.room.EmployeeDao
-import net.pet.myapplication.room.repository.RoomRepository
-import net.pet.myapplication.room.repository.RoomRepositoryImpl
+import net.pet.myapplication.data.network.VideoPagingDataSource
+import net.pet.myapplication.api.`interface`.RetrofitServices
+import net.pet.myapplication.api.`interface`.RetrofitServicesVideo
+import net.pet.myapplication.api.repositoryImages.ApiRepository
+import net.pet.myapplication.api.repositoryImages.ApiRepositoryImpl
+import net.pet.myapplication.api.repositoryVideos.ApiRepositoryVideo
+import net.pet.myapplication.api.repositoryVideos.ApiRepositoryVideoImpl
 import net.pet.myapplication.usecases.GetVideoResponseUseCase
 import net.pet.myapplication.utils.Constants
-import net.pet.myapplication.viewmodel.ImageViewModel
-import net.pet.myapplication.viewmodel.VideoViewModel
+import net.pet.myapplication.ui.viewmodel.ImageViewModel
+import net.pet.myapplication.ui.viewmodel.VideoViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -27,24 +23,14 @@ val mainModule = module {
     viewModel { ImageViewModel(get()) }
     viewModel { VideoViewModel(get()) }
 
-    single<RoomRepository> { RoomRepositoryImpl(get()) }
-    single {
-        Room.databaseBuilder(androidContext(), Database::class.java, "database")
-            .fallbackToDestructiveMigration().build()
-    }
-    single { provideDao(get()) }
     single<ApiRepository> { ApiRepositoryImpl(get()) }
     single { provideApiService(get())}
     single { provideRetrofitClient() }
-    single <ApiRepositoryVideo> {ApiRepositoryVideoImpl(get()) }
+    single <ApiRepositoryVideo> { ApiRepositoryVideoImpl(get()) }
     single { provideApiServiceVideo(get()) }
 
     single { GetVideoResponseUseCase(get())}
-
-}
-
-private fun provideDao(database: Database): EmployeeDao {
-    return database.employeeDao()
+    single { VideoPagingDataSource(get(), get()) }
 }
 
 private fun provideRetrofitClient(): Retrofit {
@@ -60,7 +46,7 @@ private fun provideRetrofitClient(): Retrofit {
         .build()
 }
 
-private fun provideApiServiceVideo(retrofit: Retrofit) : RetrofitServicesVideo{
+private fun provideApiServiceVideo(retrofit: Retrofit) : RetrofitServicesVideo {
     return retrofit.create((RetrofitServicesVideo::class.java))
 }
 

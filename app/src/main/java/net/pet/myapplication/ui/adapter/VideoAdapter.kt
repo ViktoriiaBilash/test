@@ -1,21 +1,18 @@
-package net.pet.myapplication.adapter
+package net.pet.myapplication.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import net.pet.myapplication.R
-import net.pet.myapplication.VideoDialogFragment
 import net.pet.myapplication.databinding.ItemBinding
 import net.pet.myapplication.model.VideoItemUI
 import net.pet.myapplication.utils.extensions.loadImageWithGlide
-//in Activity
-//clickListener: (url : String) -> Unit)
-//private val listener: (url: String) -> Unit = { url ->
-//    ....
-//}
-class VideoAdapter(private var list:List<VideoItemUI> = listOf(), private val clickListener: (url : String) -> Unit) :
-    RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
+
+class VideoAdapter(private val clickListener: (url : String) -> Unit) :
+    PagingDataAdapter<VideoItemUI, VideoAdapter.VideoViewHolder>(VideoComparator) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -28,22 +25,11 @@ class VideoAdapter(private var list:List<VideoItemUI> = listOf(), private val cl
     }
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
-        holder.bind(list[position])
-    }
-
-    override fun getItemCount(): Int {
-        return list.size
-    }
-
-    fun submit(newData: List<VideoItemUI>) {
-        list = newData.toMutableList()
-        notifyDataSetChanged()
+        getItem(position)?.let { holder.bind(it) }
     }
 
     inner class VideoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         private val binding = ItemBinding.bind(itemView)
-
         fun bind(item: VideoItemUI) {
             with(binding){
                 textViewTags.text = "Tags: ${item.tags}"
@@ -54,5 +40,13 @@ class VideoAdapter(private var list:List<VideoItemUI> = listOf(), private val cl
                 }
             }
         }
+    }
+
+    object VideoComparator : DiffUtil.ItemCallback<VideoItemUI>(){
+        override fun areItemsTheSame(oldItem: VideoItemUI, newItem: VideoItemUI)=
+            oldItem.url == newItem.url
+
+        override fun areContentsTheSame(oldItem: VideoItemUI, newItem: VideoItemUI)=
+            oldItem == newItem
     }
 }

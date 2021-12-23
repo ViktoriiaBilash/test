@@ -1,4 +1,4 @@
-package net.pet.myapplication.adapter
+package net.pet.myapplication.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View

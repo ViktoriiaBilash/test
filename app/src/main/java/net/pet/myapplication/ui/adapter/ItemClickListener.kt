@@ -1,4 +1,4 @@
-package net.pet.myapplication.adapter
+package net.pet.myapplication.ui.adapter
 
 interface ItemClickListener {
     fun loadVideo()

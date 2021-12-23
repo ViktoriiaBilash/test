@@ -1,7 +1,7 @@
-package net.pet.myapplication.retrofit.repositoryImages
+package net.pet.myapplication.api.repositoryImages
 
 import net.pet.myapplication.model.Image
-import net.pet.myapplication.retrofit.`interface`.RetrofitServices
+import net.pet.myapplication.api.`interface`.RetrofitServices
 
 class ApiRepositoryImpl(private val apiService: RetrofitServices) : ApiRepository {
 

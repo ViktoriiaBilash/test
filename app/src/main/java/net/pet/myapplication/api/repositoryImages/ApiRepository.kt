@@ -1,4 +1,4 @@
-package net.pet.myapplication.retrofit.repositoryImages
+package net.pet.myapplication.api.repositoryImages
 
 import net.pet.myapplication.model.Image
 

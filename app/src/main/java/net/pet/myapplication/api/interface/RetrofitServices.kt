@@ -1,4 +1,4 @@
-package net.pet.myapplication.retrofit.`interface`
+package net.pet.myapplication.api.`interface`
 
 import net.pet.myapplication.model.ImagesResponse
 import retrofit2.Response

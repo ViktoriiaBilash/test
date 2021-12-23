@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/layout/custom_toast.xml" value="0.27760416666666665" />
         <entry key="app/src/main/res/layout/dialog_fragment_video.xml" value="0.30885416666666665" />
         <entry key="app/src/main/res/layout/item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/load_state_footer_view_item.xml" value="0.30885416666666665" />
       </map>
     </option>
   </component>

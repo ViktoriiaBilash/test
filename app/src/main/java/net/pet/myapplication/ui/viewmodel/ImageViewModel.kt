@@ -1,4 +1,4 @@
-package net.pet.myapplication.viewmodel
+package net.pet.myapplication.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import net.pet.myapplication.retrofit.repositoryImages.ApiRepository
+import net.pet.myapplication.api.repositoryImages.ApiRepository
 import net.pet.myapplication.model.Image
 import java.lang.Exception
 

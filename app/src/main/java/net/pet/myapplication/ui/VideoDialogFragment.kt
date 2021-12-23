@@ -1,4 +1,4 @@
-package net.pet.myapplication
+package net.pet.myapplication.ui
 
 import android.app.Dialog
 import android.os.Bundle
@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import net.pet.myapplication.R
 import net.pet.myapplication.databinding.CustomToastBinding
 import net.pet.myapplication.databinding.DialogFragmentVideoBinding
 
