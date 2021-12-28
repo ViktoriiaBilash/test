@@ -1,6 +1,5 @@
 package net.pet.myapplication.api.`interface`
 
-import android.util.Log
 import androidx.annotation.IntRange
 import net.pet.myapplication.model.video.VideosResponse
 import retrofit2.Response

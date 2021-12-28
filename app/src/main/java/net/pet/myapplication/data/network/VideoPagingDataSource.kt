@@ -1,6 +1,5 @@
 package net.pet.myapplication.data.network
 
-import android.util.Log
 import androidx.paging.PagingSource
 import kotlinx.coroutines.delay
 import net.pet.myapplication.model.VideoItemUI
@@ -11,20 +10,14 @@ class VideoPagingDataSource(private val query: String) : PagingSource<Int, Video
 
     private val responseUseCase: GetVideoResponseUseCase by inject(GetVideoResponseUseCase::class.java)
 
-    init {
-        Log.e("TAG", "VideoPagingDataSource")
-    }
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, VideoItemUI> {
-        delay(1200)
-        Log.e("TAG", "VideoPagingDataSource  load")
+        delay(600)
         if (query.isEmpty()) {
             return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
         }
         val pageNumber = params.key ?: 1
-        Log.e("TAG", "VideoPagingDataSource  load, pageNumber = $pageNumber")
         val pageSize = params.loadSize.coerceAtMost(20)
-        var data: List<VideoItemUI> = listOf()
+        var data: List<VideoItemUI>
         try {
             data = responseUseCase(query, pageNumber, pageSize)
         } catch (exception: Exception) {
