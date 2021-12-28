@@ -14,20 +14,25 @@ class VideoPagingDataSource(private val query: String) : PagingSource<Int, Video
     init {
         Log.e("TAG", "VideoPagingDataSource")
     }
+
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, VideoItemUI> {
         delay(1200)
         Log.e("TAG", "VideoPagingDataSource  load")
-        if (query.isEmpty()){
+        if (query.isEmpty()) {
             return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
         }
         val pageNumber = params.key ?: 1
         Log.e("TAG", "VideoPagingDataSource  load, pageNumber = $pageNumber")
         val pageSize = params.loadSize.coerceAtMost(20)
-
-        val data = responseUseCase(query, pageNumber, pageSize)
-
-        val nextKey = if(data.size < pageSize) null else pageNumber+1
-        val prevKey = if (pageNumber == 1) null else pageNumber-1
+        var data: List<VideoItemUI> = listOf()
+        try {
+            data = responseUseCase(query, pageNumber, pageSize)
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+            return LoadResult.Error(exception)
+        }
+        val nextKey = if (data.size < pageSize) null else pageNumber + 1
+        val prevKey = if (pageNumber == 1) null else pageNumber - 1
         return LoadResult.Page(data, prevKey, nextKey)
     }
 }

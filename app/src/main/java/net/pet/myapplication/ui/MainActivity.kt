@@ -4,17 +4,18 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.CombinedLoadStates
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.collectLatest
 import net.pet.myapplication.databinding.ActivityMainBinding
 import net.pet.myapplication.ui.adapter.VideoAdapter
 import net.pet.myapplication.ui.viewmodel.VideoViewModel
+import net.pet.myapplication.utils.Constants
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModelVideo: VideoViewModel by viewModel()
+    private var query :String = Constants.DEFAULT_QUERY
 
     private val listener: (url: String) -> Unit = { url ->
         val dialog = VideoDialogFragment(url ?: "")
@@ -41,6 +42,14 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = videoAdapter.withLoadStateFooter(StateAdapter())
         }
+        binding.searchView.setOnClickListener {
+            query = binding.searchView.query.toString()
+            with(binding.searchView){
+                setQuery("", false)
+                clearFocus()
+                Log.e("TAG", "setOnSearchClickListener = $query")
+            }
+        }
     }
 
     private fun observe() {
@@ -49,6 +58,5 @@ class MainActivity : AppCompatActivity() {
         this.lifecycleScope.launchWhenCreated {
             viewModelVideo.newData.collectLatest(videoAdapter::submitData)
         }
-
     }
 }
