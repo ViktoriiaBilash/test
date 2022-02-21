@@ -1,25 +1,17 @@
 package net.pet.myapplication
 
 import android.app.Application
-import net.pet.myapplication.di.mainModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import net.pet.myapplication.di.modules.AppComponent
+import net.pet.myapplication.di.modules.DaggerAppComponent
+
 
 class App : Application(){
 
-    //get started koin
+    lateinit var appComponent : AppComponent
+
     override fun onCreate() {
         super.onCreate()
-        setupKoin()
+        appComponent = DaggerAppComponent.create()
     }
 
-    private fun setupKoin(){
-        startKoin {
-            androidContext(this@App)
-            modules(
-                //list of koins module
-                mainModule
-            )
-        }
-    }
 }

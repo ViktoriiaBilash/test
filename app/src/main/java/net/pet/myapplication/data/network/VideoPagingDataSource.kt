@@ -4,11 +4,12 @@ import androidx.paging.PagingSource
 import kotlinx.coroutines.delay
 import net.pet.myapplication.model.VideoItemUI
 import net.pet.myapplication.usecases.GetVideoResponseUseCase
-import org.koin.java.KoinJavaComponent.inject
+import javax.inject.Inject
 
 class VideoPagingDataSource(private val query: String) : PagingSource<Int, VideoItemUI>() {
 
-    private val responseUseCase: GetVideoResponseUseCase by inject(GetVideoResponseUseCase::class.java)
+    @Inject
+    lateinit var responseUseCase: GetVideoResponseUseCase
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, VideoItemUI> {
         delay(600)

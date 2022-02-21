@@ -5,14 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.collectLatest
+import net.pet.myapplication.App
 import net.pet.myapplication.databinding.ActivityMainBinding
 import net.pet.myapplication.ui.adapter.VideoAdapter
 import net.pet.myapplication.ui.viewmodel.VideoViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModelVideo: VideoViewModel by viewModel()
+    @Inject
+    lateinit var viewModelVideo: VideoViewModel
 
     private val listener: (url: String) -> Unit = { url ->
         val dialog = VideoDialogFragment(url ?: "")
@@ -29,6 +31,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        (application as App).appComponent.injectMainActivity(this)
+
         setContentView(binding.root)
         init()
         observe()
@@ -41,16 +46,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.searchView.setOnClickListener {
-           val query = binding.searchView.query.toString()
+            val query = binding.searchView.query.toString()
             viewModelVideo.updateQuery(query)
-            with(binding.searchView){
-                setQuery("", false)
+            with(binding.searchView) {
+                setQuery("cat", false)
                 clearFocus()
             }
         }
     }
 
-     private fun observe() {
+    private fun observe() {
         videoAdapter.withLoadStateFooter(StateAdapter())
         this.lifecycleScope.launchWhenCreated {
             viewModelVideo.newData.collectLatest(videoAdapter::submitData)
